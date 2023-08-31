@@ -7,7 +7,7 @@ import {
   toLocaleCurrencyString,
 } from "@/app/common/Localization";
 import { TIP_CONSTANTS } from "@/app/constants";
-import React, { FormEventHandler, useState } from "react";
+import React, { useState } from "react";
 
 type PayTipProps = {
   cafeName: string;
