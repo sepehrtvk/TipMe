@@ -31,8 +31,8 @@ const CafeTips = ({ params }: { params: { cafeName: string } }) => {
 
     if (
       trueData &&
-      trueData.username == formData.username &&
-      trueData.password == formData.password
+      trueData.username == (formData ? formData.username : "") &&
+      trueData.password == (formData ? formData.password : "")
     )
       setIsLoggedIn(true);
     else setMessage("نام کاربری و یا رمز عبور اشتباه است.");

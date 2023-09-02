@@ -1,0 +1,2 @@
+ip : 185.58.241.56
+password : Sepehr80Tavakoli

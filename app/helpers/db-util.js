@@ -15,6 +15,20 @@ export async function insertDocument(client, collection, document) {
 
   return result;
 }
+export async function updateDocument(client, collection, order_id) {
+  const db = client.db();
+
+  const result = await db.collection(collection).updateOne(
+    { order_id },
+    {
+      $set: {
+        status: 1,
+      },
+    }
+  );
+
+  return result;
+}
 
 export async function getAllDocuments(client, collection, sort) {
   const db = client.db();
