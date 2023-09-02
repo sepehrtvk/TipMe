@@ -15,25 +15,27 @@ const OrderDetails = ({ searchParams }: { searchParams: BankParams }) => {
   const [message, setMessage] = useState<string>("true");
 
   useEffect(() => {
-    const amountLocal = localStorage.getItem("paymentAmount");
-    fetch("/api/ipgverify", {
-      method: "POST",
-      body: JSON.stringify({
-        ...searchParams,
-        amount: amountLocal ? +amountLocal : 0,
-      }),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        setMessage(json.data.message);
-        localStorage.removeItem("paymentAmount");
+    if (searchParams && searchParams.ref_num) {
+      const amountLocal = localStorage.getItem("paymentAmount");
+      fetch("/api/ipgverify", {
+        method: "POST",
+        body: JSON.stringify({
+          ...searchParams,
+          amount: amountLocal ? +amountLocal : 0,
+        }),
+        headers: {
+          "Content-type": "application/json",
+        },
       })
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
-  }, []);
+        .then((response) => response.json())
+        .then((json) => {
+          setMessage(json.data.message);
+          localStorage.removeItem("paymentAmount");
+        })
+        .catch((err) => console.log(err))
+        .finally(() => setIsLoading(false));
+    }
+  }, [searchParams]);
 
   if (isLoading)
     return (
