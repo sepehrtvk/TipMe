@@ -18,7 +18,7 @@ const CafeTips = ({ params }: { params: { cafeName: string } }) => {
   } | null>(null);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/cafe?cafeName=" + cafeName)
+    fetch("/api/cafe?cafeName=" + cafeName)
       .then((res) => res.json())
       .then((data) => {
         setData(data.paytips);

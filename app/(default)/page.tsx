@@ -1,6 +1,7 @@
 export const metadata = {
   title: "تیپ می - پراخت انعام",
   description: "پرداخت آنلاین انعام",
+  other: { enamad: "546467" },
 };
 
 import Hero from "@/components/hero";
