@@ -86,7 +86,23 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
   const submitForm = (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(formData);
+    const toSendData = {
+      amount: +selectedPrice,
+      name: formData?.name,
+      phone: formData?.phone,
+      cafeName,
+    };
+
+    fetch("http://localhost:3000/api/tip", {
+      method: "POST",
+      body: JSON.stringify(toSendData),
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json))
+      .catch((err) => console.log(err));
   };
 
   const renderForm = () => {

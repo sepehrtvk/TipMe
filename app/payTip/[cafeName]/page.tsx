@@ -1,5 +1,4 @@
 import { CAFE_NAMES } from "@/app/constants";
-import Hero from "@/components/hero";
 import { PayTip } from "@/components/payTip";
 import React from "react";
 

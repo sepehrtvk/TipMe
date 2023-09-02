@@ -2,7 +2,7 @@ import { MongoClient } from "mongodb";
 
 export async function connectDatabase() {
   const client = await MongoClient.connect(
-    "mongodb+srv://sepehrtvk:Sepehrtavakoli80@cluster0.nwkuq31.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb://sepehrtvk:Sepehrtavakoli80@ac-th29g2x-shard-00-00.nwkuq31.mongodb.net:27017,ac-th29g2x-shard-00-01.nwkuq31.mongodb.net:27017,ac-th29g2x-shard-00-02.nwkuq31.mongodb.net:27017/?ssl=true&replicaSet=atlas-k39dde-shard-0&authSource=admin&retryWrites=true&w=majority"
   );
 
   return client;
