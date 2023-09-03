@@ -2,40 +2,51 @@
 import React, { useEffect, useState } from "react";
 
 type BankParams = {
-  status: string;
-  ref_num: string;
-  order_id: string;
-  transaction_id: string;
-  card_number: string;
-  tracking_code: string;
+  status?: string | undefined;
+  ref_num?: string | undefined;
+  order_id?: string | undefined;
+  transaction_id?: string | undefined;
+  card_number?: string | undefined;
+  tracking_code?: string | undefined;
 };
 
-const OrderDetails = ({ searchParams }: { searchParams: BankParams }) => {
+const OrderDetails = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [message, setMessage] = useState<string>("true");
 
+  let searchParams: BankParams = {};
+
   useEffect(() => {
-    if (searchParams && searchParams.ref_num) {
-      const amountLocal = localStorage.getItem("paymentAmount");
-      fetch("/api/ipgverify", {
-        method: "POST",
-        body: JSON.stringify({
-          ...searchParams,
-          amount: amountLocal ? +amountLocal : 0,
-        }),
-        headers: {
-          "Content-type": "application/json",
-        },
+    let urlString = window.location.search;
+    let paramString = urlString.split("?")[1];
+    let queryString = new URLSearchParams(paramString);
+
+    searchParams.card_number = queryString.get("card_number")?.toString();
+    searchParams.status = queryString.get("status")?.toString();
+    searchParams.ref_num = queryString.get("ref_num")?.toString();
+    searchParams.order_id = queryString.get("order_id")?.toString();
+    searchParams.tracking_code = queryString.get("tracking_code")?.toString();
+    searchParams.transaction_id = queryString.get("transaction_id")?.toString();
+
+    const amountLocal = localStorage.getItem("paymentAmount");
+    fetch("/api/ipgverify", {
+      method: "POST",
+      body: JSON.stringify({
+        ...searchParams,
+        amount: amountLocal ? +amountLocal : 0,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        setMessage(json.data.message);
+        localStorage.removeItem("paymentAmount");
       })
-        .then((response) => response.json())
-        .then((json) => {
-          setMessage(json.data.message);
-          localStorage.removeItem("paymentAmount");
-        })
-        .catch((err) => console.log(err))
-        .finally(() => setIsLoading(false));
-    }
-  }, [searchParams]);
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+  }, []);
 
   if (isLoading)
     return (
@@ -46,7 +57,7 @@ const OrderDetails = ({ searchParams }: { searchParams: BankParams }) => {
       </div>
     );
 
-  if (+searchParams.status > 0)
+  if (searchParams && searchParams.status && +searchParams.status > 0)
     return (
       <div className='px-8 sm:px-12'>
         <div className='pt-32 pb-12 md:pt-40 md:pb-20 text-center'>
