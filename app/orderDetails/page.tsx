@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 
 type BankParams = {
-  status?: number | undefined;
+  status?: string | undefined | null;
   ref_num?: string | undefined;
   order_id?: string | undefined;
   transaction_id?: string | undefined;
@@ -21,9 +21,10 @@ const OrderDetails = () => {
   let queryString = new URLSearchParams(paramString);
 
   searchParams.card_number = queryString.get("card_number")?.toString();
-  searchParams.status = queryString.get("status")?.toString()
-    ? +queryString.get("status")?.toString()
-    : 0;
+  searchParams.status = queryString.get("status")
+    ? queryString.get("status")
+    : "";
+
   searchParams.ref_num = queryString.get("ref_num")?.toString();
   searchParams.order_id = queryString.get("order_id")?.toString();
   searchParams.tracking_code = queryString.get("tracking_code")?.toString();
@@ -60,7 +61,7 @@ const OrderDetails = () => {
       </div>
     );
 
-  if (searchParams.status && searchParams.status > 0)
+  if (searchParams.status && +searchParams.status > 0)
     return (
       <div className='px-8 sm:px-12'>
         <div className='pt-32 pb-12 md:pt-40 md:pb-20 text-center'>
