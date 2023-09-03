@@ -16,7 +16,12 @@ const OrderDetails = () => {
 
   let searchParams: BankParams = {};
 
-  let urlString = window.location.search;
+  let urlString = "";
+
+  useEffect(() => {
+    urlString = window.location.search;
+  }, []);
+
   let paramString = urlString.split("?")[1];
   let queryString = new URLSearchParams(paramString);
 
