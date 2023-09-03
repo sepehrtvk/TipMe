@@ -178,7 +178,11 @@ const CafeTips = ({ params }: { params: { cafeName: string } }) => {
                             variant='small'
                             color='blue-gray'
                             className='font-normal'>
-                            {toLocaleCurrencyString(payTip.amount, true, true)}
+                            {toLocaleCurrencyString(
+                              payTip.amount / 10,
+                              true,
+                              true
+                            )}
                           </Typography>
                         </td>
                       </tr>
