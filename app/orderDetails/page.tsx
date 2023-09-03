@@ -17,25 +17,26 @@ const OrderDetails = () => {
   let searchParams: BankParams = {};
 
   let urlString = "";
+  let amountLocal: string | null = "";
 
-  useEffect(() => {
+  if (typeof window !== "undefined") {
     urlString = window.location.search;
-  }, []);
 
-  let paramString = urlString.split("?")[1];
-  let queryString = new URLSearchParams(paramString);
+    let paramString = urlString.split("?")[1];
+    let queryString = new URLSearchParams(paramString);
 
-  searchParams.card_number = queryString.get("card_number")?.toString();
-  searchParams.status = queryString.get("status")
-    ? queryString.get("status")
-    : "";
+    searchParams.card_number = queryString.get("card_number")?.toString();
+    searchParams.status = queryString.get("status")
+      ? queryString.get("status")
+      : "";
 
-  searchParams.ref_num = queryString.get("ref_num")?.toString();
-  searchParams.order_id = queryString.get("order_id")?.toString();
-  searchParams.tracking_code = queryString.get("tracking_code")?.toString();
-  searchParams.transaction_id = queryString.get("transaction_id")?.toString();
+    searchParams.ref_num = queryString.get("ref_num")?.toString();
+    searchParams.order_id = queryString.get("order_id")?.toString();
+    searchParams.tracking_code = queryString.get("tracking_code")?.toString();
+    searchParams.transaction_id = queryString.get("transaction_id")?.toString();
 
-  const amountLocal = localStorage.getItem("paymentAmount");
+    amountLocal = localStorage.getItem("paymentAmount");
+  }
 
   useEffect(() => {
     fetch("/api/ipgverify", {
