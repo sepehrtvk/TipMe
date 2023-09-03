@@ -196,7 +196,7 @@ const CafeTips = ({ params }: { params: { cafeName: string } }) => {
             {data && data.length > 0 && (
               <span>
                 {toLocaleCurrencyString(
-                  data.reduce((n, { amount }) => n + amount, 0),
+                  data.reduce((n, { amount }) => n + amount, 0) / 10,
                   true,
                   true
                 )}
