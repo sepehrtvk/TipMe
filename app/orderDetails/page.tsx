@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 
 type BankParams = {
-  status?: string | undefined;
+  status?: number | undefined;
   ref_num?: string | undefined;
   order_id?: string | undefined;
   transaction_id?: string | undefined;
@@ -12,23 +12,26 @@ type BankParams = {
 
 const OrderDetails = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [message, setMessage] = useState<string>("true");
+  const [message, setMessage] = useState<string>("");
 
   let searchParams: BankParams = {};
 
+  let urlString = window.location.search;
+  let paramString = urlString.split("?")[1];
+  let queryString = new URLSearchParams(paramString);
+
+  searchParams.card_number = queryString.get("card_number")?.toString();
+  searchParams.status = queryString.get("status")?.toString()
+    ? +queryString.get("status")?.toString()
+    : 0;
+  searchParams.ref_num = queryString.get("ref_num")?.toString();
+  searchParams.order_id = queryString.get("order_id")?.toString();
+  searchParams.tracking_code = queryString.get("tracking_code")?.toString();
+  searchParams.transaction_id = queryString.get("transaction_id")?.toString();
+
+  const amountLocal = localStorage.getItem("paymentAmount");
+
   useEffect(() => {
-    let urlString = window.location.search;
-    let paramString = urlString.split("?")[1];
-    let queryString = new URLSearchParams(paramString);
-
-    searchParams.card_number = queryString.get("card_number")?.toString();
-    searchParams.status = queryString.get("status")?.toString();
-    searchParams.ref_num = queryString.get("ref_num")?.toString();
-    searchParams.order_id = queryString.get("order_id")?.toString();
-    searchParams.tracking_code = queryString.get("tracking_code")?.toString();
-    searchParams.transaction_id = queryString.get("transaction_id")?.toString();
-
-    const amountLocal = localStorage.getItem("paymentAmount");
     fetch("/api/ipgverify", {
       method: "POST",
       body: JSON.stringify({
@@ -57,7 +60,7 @@ const OrderDetails = () => {
       </div>
     );
 
-  if (searchParams.status && +searchParams.status > 0)
+  if (searchParams.status && searchParams.status > 0)
     return (
       <div className='px-8 sm:px-12'>
         <div className='pt-32 pb-12 md:pt-40 md:pb-20 text-center'>
