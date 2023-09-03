@@ -57,7 +57,7 @@ const OrderDetails = () => {
       </div>
     );
 
-  if (searchParams && searchParams.status && +searchParams.status > 0)
+  if (searchParams.status && +searchParams.status > 0)
     return (
       <div className='px-8 sm:px-12'>
         <div className='pt-32 pb-12 md:pt-40 md:pb-20 text-center'>
