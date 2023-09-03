@@ -90,30 +90,33 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
     setIsLoading(true);
 
     const toSendData = {
-      amount: +selectedPrice * 10,
+      amount:
+        selectedPrice == "Custom" ? +customPrice * 10 : +selectedPrice * 10,
       name: formData?.name,
       phone: formData?.phone,
       cafeName,
     };
 
-    fetch("/api/tip", {
-      method: "POST",
-      body: JSON.stringify(toSendData),
-      headers: {
-        "Content-type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        const url_pay =
-          "https://core.paystar.ir/api/pardakht/payment?token=" +
-          json.data.data.token;
+    console.log(toSendData);
 
-        window.open(url_pay, "_self");
-        localStorage.setItem("paymentAmount", (+selectedPrice * 10).toString());
-      })
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
+    // fetch("/api/tip", {
+    //   method: "POST",
+    //   body: JSON.stringify(toSendData),
+    //   headers: {
+    //     "Content-type": "application/json",
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((json) => {
+    //     const url_pay =
+    //       "https://core.paystar.ir/api/pardakht/payment?token=" +
+    //       json.data.data.token;
+
+    //     window.open(url_pay, "_self");
+    //     localStorage.setItem("paymentAmount", (+selectedPrice * 10).toString());
+    //   })
+    //   .catch((err) => console.log(err))
+    //   .finally(() => setIsLoading(false));
   };
 
   const renderForm = () => {
