@@ -69,6 +69,19 @@ export async function POST(Request: Request) {
 
   const data = await res.json();
 
+  const d = new Date();
+
+  const date = new Intl.DateTimeFormat("fa-IR").format(d).toString();
+  const time = new Intl.DateTimeFormat("fa-IR", {
+    dateStyle: "full",
+    timeStyle: "long",
+  })
+    .format(d)
+    .toString()
+    .split("ساعت")[1]
+    .split("(")[0]
+    .trim();
+
   const newTipOay = {
     amount,
     name,
@@ -76,6 +89,8 @@ export async function POST(Request: Request) {
     cafeName,
     order_id,
     status: 0,
+    date,
+    time,
   };
 
   let result;

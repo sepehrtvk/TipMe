@@ -5,7 +5,15 @@ import { toLocaleCurrencyString } from "@/app/common/Localization";
 import { CAFE_NAMES, LOGIN_PASS } from "@/app/constants";
 import Login from "@/components/Login";
 
-const TABLE_HEAD = ["ردیف", "نام و نام خانوادگی", "موبایل", "انعام"];
+const TABLE_HEAD = [
+  "ردیف",
+  "نام و نام خانوادگی",
+  "موبایل",
+  "انعام",
+  "تاریخ",
+  "ساعت",
+  "وضعیت",
+];
 
 const CafeTips = ({ params }: { params: { cafeName: string } }) => {
   const cafeName = params.cafeName;
@@ -185,6 +193,34 @@ const CafeTips = ({ params }: { params: { cafeName: string } }) => {
                             )}
                           </Typography>
                         </td>
+                        <td className={classes}>
+                          <Typography
+                            variant='small'
+                            color='blue-gray'
+                            className='font-normal'>
+                            {payTip.date}
+                          </Typography>
+                        </td>
+                        <td className={classes}>
+                          <Typography
+                            variant='small'
+                            color='blue-gray'
+                            className='font-normal'>
+                            {payTip.time}
+                          </Typography>
+                        </td>
+                        <td className={classes}>
+                          {payTip.status == 1 && (
+                            <span className='text-white py-1 px-3 bg-green-500 rounded-lg'>
+                              موفق
+                            </span>
+                          )}
+                          {payTip.status == 0 && (
+                            <span className='text-white py-1 px-2 bg-rose-500 rounded-lg'>
+                              ناموفق
+                            </span>
+                          )}
+                        </td>
                       </tr>
                     );
                   })}
@@ -196,7 +232,9 @@ const CafeTips = ({ params }: { params: { cafeName: string } }) => {
             {data && data.length > 0 && (
               <span>
                 {toLocaleCurrencyString(
-                  data.reduce((n, { amount }) => n + amount, 0) / 10,
+                  data
+                    .filter((item) => item.status == 1)
+                    .reduce((n, { amount }) => n + amount, 0) / 10,
                   true,
                   true
                 )}
