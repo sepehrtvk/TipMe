@@ -5,3 +5,9 @@ export const LOGIN_PASS = [
   { cafeName: "Manobabam", username: "Manobabam", password: "12345678" },
   { cafeName: "Note", username: "Note", password: "12345678" },
 ];
+export const WageCostPercent = 5;
+
+export const LOGIN_PASS_ADMIN = {
+  username: "Admin",
+  password: "12345678",
+};

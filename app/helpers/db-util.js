@@ -37,6 +37,32 @@ export async function getAllDocuments(client, collection, sort) {
 
   return documents;
 }
+export async function getAllDocumentsAggregate(client, collection) {
+  const db = client.db();
+
+  const pipeline = [
+    {
+      $match: {
+        status: 1,
+      },
+    },
+    {
+      $group: {
+        _id: "$cafeName",
+        totalAmount: {
+          $sum: "$amount",
+        },
+      },
+    },
+  ];
+
+  const coll = await db.collection(collection);
+
+  const cursor = coll.aggregate(pipeline);
+  const result = await cursor.toArray();
+
+  return result;
+}
 
 export async function getAllCafeTips(client, collection, sort, cafeName) {
   const db = client.db();

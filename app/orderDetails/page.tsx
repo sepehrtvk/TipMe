@@ -73,7 +73,7 @@ const OrderDetails = () => {
         <div className='pt-32 pb-12 md:pt-40 md:pb-20 text-center'>
           <p className='text-xl text-green-600'>پرداخت با موفقیت انجام شد.</p>
           <p className='text-lg '>با تشکر از پرداخت شما</p>
-          {message && <p>{message}</p>}
+          {/* {message && <p>{message}</p>} */}
         </div>
       </div>
     );
