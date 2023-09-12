@@ -111,7 +111,7 @@ const AdminPanel = () => {
           <p className='text-xl text-green-600 mb-8'>
             لیست انعام های پرداخت شده توسط کافه ها
           </p>
-          <div className='grid grid-cols-3 gap-20'>
+          <div className='grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-20'>
             {data.length > 0 &&
               data.map((item) => <CafeDetails cafeDetails={item} />)}
           </div>
