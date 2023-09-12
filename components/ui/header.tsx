@@ -27,15 +27,16 @@ export default function Header() {
         !top ? "bg-white backdrop-blur-sm shadow-lg" : ""
       }`}>
       <div className='max-w-6xl mx-auto px-5 sm:px-6'>
-        <div className='flex items-center justify-between h-16 md:h-20'>
+        <div className='flex items-center justify-center h-16 md:h-20'>
           {/* Site branding */}
           <div className='shrink-0 mr-4'>
             <Logo />
           </div>
 
           {/* Desktop navigation */}
+          {/* 
           <nav className='hidden md:flex md:grow'>
-            {/* Desktop sign in links */}
+          
             <ul className='flex grow justify-start flex-wrap items-center mr-20'>
               <li className='ml-10'>
                 <span>خانه</span>
@@ -50,9 +51,9 @@ export default function Header() {
                 <span>درباره ما</span>
               </li>
             </ul>
-          </nav>
+          </nav> */}
 
-          <MobileMenu />
+          {/* <MobileMenu /> */}
         </div>
       </div>
     </header>
