@@ -22,6 +22,10 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
   const [selectedPrice, setSelectedPrice] = useState<string>("");
   const [customPrice, setCustomPrice] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isFormValid, setIsFormValid] = useState<boolean>(false);
+  const [error, setError] = useState<{ field: string; error: string } | null>(
+    null
+  );
 
   const [formData, setFromData] = useState<{
     name: string;
@@ -85,8 +89,39 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
     );
   };
 
+  const checkValidation = (formData: any) => {
+    if (!formData?.name) {
+      setIsFormValid(false);
+      setError({ field: "name", error: "نام و نام خانوادگی الزامی است" });
+      return false;
+    } else if (!formData.phone) {
+      setIsFormValid(false);
+      setError({ field: "phone", error: "تلفن همراه الزامی است" });
+      return;
+    } else if (formData.phone.length != 11) {
+      setIsFormValid(false);
+      setError({
+        field: "phone",
+        error: "لطفا تلفن همراه را درست وارد نمایید",
+      });
+      return false;
+    } else if (!(formData.phone as string).startsWith("09", 0)) {
+      setIsFormValid(false);
+      setError({
+        field: "phone",
+        error: "لطفا تلفن همراه را با ۰۹ وارد نمایید",
+      });
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   const submitForm = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!checkValidation(formData)) return;
+
     setIsLoading(true);
 
     const toSendData = {
@@ -133,13 +168,20 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
             type='text'
             onChange={(e) => {
               const value = e.target.value;
+
               const data = {
                 name: value,
                 phone: formData?.phone ? formData.phone : "",
               };
+              // checkValidation(data);
+              setError(null);
+
               setFromData(data);
             }}
           />
+          {error && error.field == "name" && (
+            <p className='text-sm text-rose-600'>{error.error}</p>
+          )}
         </div>
         <div className='mb-4 mt-8'>
           <label
@@ -153,9 +195,10 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
             id='name'
             type='text'
             maxLength={11}
-            minLength={11}
+            // minLength={11}
             onChange={(e) => {
-              const value = e.target.value;
+              const value = convertNumbersToEnglish(e.target.value);
+              console.log(value);
               const re = /^[0-9\b]+$/;
 
               if (value === "" || re.test(value)) {
@@ -163,19 +206,27 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
                   name: formData?.name ? formData.name : "",
                   phone: value,
                 };
+                setError(null);
                 setFromData(data);
+                // checkValidation(data);
+
+                if (value.length == 11) setIsFormValid(true);
+                else setIsFormValid(false);
               }
             }}
           />
+          {error && error.field == "phone" && (
+            <p className='text-sm text-rose-600'>{error.error}</p>
+          )}
         </div>
         <div className='mt-12 w-full'>
           <button
-            disabled={!formData || isLoading}
+            disabled={isLoading}
             type='submit'
             className={
               !isLoading
                 ? BtnCLassActive + " block w-full "
-                : " bg-slate-200 text-white font-bold py-2 px-4 rounded-md block w-full"
+                : " bg-slate-300 text-white font-bold py-2 px-4 rounded-md block w-full"
             }>
             <div className='flex justify-center align-center'>
               <span>پرداخت</span>
