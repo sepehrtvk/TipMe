@@ -22,7 +22,6 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
   const [selectedPrice, setSelectedPrice] = useState<string>("");
   const [customPrice, setCustomPrice] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isFormValid, setIsFormValid] = useState<boolean>(false);
   const [error, setError] = useState<{ field: string; error: string } | null>(
     null
   );
@@ -91,22 +90,18 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
 
   const checkValidation = (formData: any) => {
     if (!formData?.name) {
-      setIsFormValid(false);
       setError({ field: "name", error: "نام و نام خانوادگی الزامی است" });
       return false;
     } else if (!formData.phone) {
-      setIsFormValid(false);
       setError({ field: "phone", error: "تلفن همراه الزامی است" });
       return;
     } else if (formData.phone.length != 11) {
-      setIsFormValid(false);
       setError({
         field: "phone",
         error: "لطفا تلفن همراه را درست وارد نمایید",
       });
       return false;
     } else if (!(formData.phone as string).startsWith("09", 0)) {
-      setIsFormValid(false);
       setError({
         field: "phone",
         error: "لطفا تلفن همراه را با ۰۹ وارد نمایید",
@@ -198,7 +193,6 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
             // minLength={11}
             onChange={(e) => {
               const value = convertNumbersToEnglish(e.target.value);
-              console.log(value);
               const re = /^[0-9\b]+$/;
 
               if (value === "" || re.test(value)) {
@@ -209,9 +203,6 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
                 setError(null);
                 setFromData(data);
                 // checkValidation(data);
-
-                if (value.length == 11) setIsFormValid(true);
-                else setIsFormValid(false);
               }
             }}
           />
