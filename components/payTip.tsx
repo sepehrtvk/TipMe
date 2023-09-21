@@ -69,6 +69,7 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
           className='block text-gray-700 text-sm font-bold mb-2'
           htmlFor='customPrice'>
           مبلغ:
+          <span className='text-rose-600'>*</span>
         </label>
         <input
           value={customPrice && toLocaleCurrencyString(customPrice)}
@@ -155,6 +156,7 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
             className='block text-gray-700 text-sm font-bold mb-2'
             htmlFor='name'>
             نام و نام خانوادگی:
+            <span className='text-rose-600'>*</span>
           </label>
           <input
             value={formData?.name}
@@ -183,6 +185,7 @@ export const PayTip = ({ cafeName }: PayTipProps) => {
             className='block text-gray-700 text-sm font-bold mb-2'
             htmlFor='name'>
             تلفن همراه:
+            <span className='text-rose-600'>*</span>
           </label>
           <input
             value={formData?.phone}
